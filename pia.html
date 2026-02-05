@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For My Valentine ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{ --pink:#ff4d6d; --soft:#fff0f5; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Poppins, sans-serif;
+  height:100vh; overflow:hidden;
+  background: radial-gradient(circle at top, #ffb3c6, #ffd6e0);
+}
+.page{display:none;height:100vh;width:100%;align-items:center;justify-content:center}
+.page.active{display:flex}
+.card{
+  background:white; width:90%; max-width:420px;
+  padding:30px; border-radius:26px; text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,.25);
+  animation:pop .9s ease;
+}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+
+h1,h2{font-family:'Playfair Display',serif;color:var(--pink)}
+p{color:#555;margin:16px 0}
+button{
+  background:var(--pink);color:white;border:none;
+  padding:12px 30px;border-radius:30px;font-size:16px;
+  cursor:pointer;transition:.3s
+}
+button:hover{transform:scale(1.08)}
+
+/* typing */
+.typing{border-right:2px solid var(--pink);white-space:nowrap;overflow:hidden}
+
+/* memory slider */
+.slider img{width:100%;border-radius:18px}
+
+/* proposal */
+.btns{position:relative;height:60px}
+#no{background:#eee;color:#333;position:absolute;left:55%;top:0;transform:translateX(0);}
+
+/* hearts */
+.heart{position:absolute;bottom:-20px;font-size:22px;animation:float 6s linear}
+@keyframes float{to{transform:translateY(-110vh);opacity:0}}
+</style>
+</head>
+<body>
+<audio id="bgm" src="https://cdn.pixabay.com/audio/2022/02/15/audio_48a2d5a3fa.mp3" loop></audio>
+
+<!-- PAGE 1 -->
+<div class="page active">
+  <div class="card">
+    <h1>Hey PIA ❤️</h1>
+    <p class="typing" id="type"></p>
+    <button onclick="next()">Open 💌</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+  <div class="card">
+    <h2>Our Little Memories ✨</h2>
+    <p>Every picture, every moment… I keep them here.</p>
+    <div class="slider">
+     <<img id="slide" src="./pia.jpeg" />
+
+
+    </div>
+    <button onclick="next()">Next 💕</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page">
+  <div class="card">
+    <h2>Mini Love Game 🎮💖</h2>
+    <p>Catch 5 hearts to unlock my question.</p>
+    <p><b>Score:</b> <span id="score">0</span> / 5</p>
+    <div id="gameArea" style="position:relative;height:220px;border-radius:18px;background:#fff0f5;overflow:hidden;margin-top:15px"></div>
+  </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+  <div class="card">
+    <h1>Unlocked ❤️</h1>
+    <p>You won my heart already.</p>
+    <h2>Will you be my Valentine? 💘</h2>
+    <button onclick="next()">Of course 💖</button>
+  </div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+  <div class="card">
+    <h1>You said YES 😭❤️</h1>
+    <p>Thank you for choosing me, always.</p>
+    <h2>— BHAVSS </h2>
+  </div>
+</div>
+
+
+<div class="page">
+  <div class="card">
+    <h1>You said YES 😭❤️</h1>
+    <p>Thank you for choosing me, always.</p>
+    <h2>— BHAVSS</h2>
+  </div>
+</div>
+
+<script>
+const pages=document.querySelectorAll('.page');
+let score=0; const target=5; const gameArea=document.getElementById('gameArea');
+function spawnHeart(){
+  if(!gameArea) return;
+  const h=document.createElement('div');
+  h.innerHTML='💖';
+  h.style.position='absolute';
+  h.style.fontSize='26px';
+  h.style.left=Math.random()*(gameArea.clientWidth-30)+'px';
+  h.style.top=Math.random()*(gameArea.clientHeight-30)+'px';
+  h.style.cursor='pointer';
+  h.onclick=()=>{
+    score++; document.getElementById('score').innerText=score; h.remove();
+    if(score>=target){ setTimeout(()=>{ next(); },600); }
+  };
+  gameArea.appendChild(h);
+  setTimeout(()=>h.remove(),3000);
+}
+setInterval(spawnHeart,800);
+
+const pagesInit=pages;('.page');
+let i=0;
+const text="I made this just to remind you… you are deeply loved.";
+let t=0;
+function type(){if(t<text.length){document.getElementById('type').innerHTML+=text.charAt(t++);setTimeout(type,70)}}
+type();
+
+function next(){pages[i].classList.remove('active');i++;pages[i].classList.add('active');document.getElementById('bgm').play()}
+
+const noBtn=document.getElementById('no');
+noBtn.addEventListener('mouseenter',()=>{
+  const parent=noBtn.parentElement;
+  const maxX=parent.clientWidth-noBtn.offsetWidth;
+  const maxY=parent.clientHeight-noBtn.offsetHeight;
+  const x=Math.random()*maxX;
+  const y=Math.random()*maxY;
+  noBtn.style.left=x+'px';
+  noBtn.style.top=y+'px';
+});
+
+</script>
+</body>
+</html>
